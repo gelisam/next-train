@@ -1,5 +1,10 @@
 package com.gelisam.prochainpassage;
 
+import java.io.IOException;
+import java.util.ArrayList;
+
+import com.gelisam.prochainpassage.CsvDocument.CsvRow;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ListView;
@@ -37,11 +42,28 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
 	public void onCheckedChanged(RadioGroup group, int checkedId) {
 		switch (checkedId) {
 		case R.id.to_montreal:
+			fillSchedule();
 			Log.d(LOG_TAG, "to montreal");
 			break;
 		case R.id.to_roxboro:
 			Log.d(LOG_TAG, "to roxboro");
 			break;
+		}
+	}
+	
+	
+	private void fillSchedule() {
+		try {
+			CsvDocument routes = new CsvDocument(getAssets().open("routes.txt"));
+			final int route_name = routes.getIndex("route_long_name");
+			
+			ArrayList<String> route_names = new ArrayList<String>();
+			for(CsvRow row : routes) {
+				route_names.add(row.getString(route_name));
+			}
+			schedule_view.setAdapter(new StringListAdapter(this, route_names));
+		} catch (IOException e) {
+			throw new RuntimeException(e);
 		}
 	}
 

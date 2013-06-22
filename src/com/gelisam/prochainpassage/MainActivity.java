@@ -61,7 +61,7 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
 			for(CsvRow row : routes) {
 				route_names.add(row.getString(route_name));
 			}
-			schedule_view.setAdapter(new StringListAdapter(this, route_names));
+			schedule_view.setAdapter(new StringListAdapter(this, route_names, 1));
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}

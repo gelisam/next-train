@@ -12,7 +12,7 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
 	private static final String LOG_TAG = "MainActivity";
 	
 	private TextView dataset_name_view;
-	private ListView passage_list_view;
+	private ListView schedule_view;
 	
 	private RadioGroup radiobuttons_view;
 	private RadioButton to_montreal_view;
@@ -24,7 +24,7 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
 		setContentView(R.layout.activity_main);
 		
 		dataset_name_view = (TextView) findViewById(R.id.dataset_name);
-		passage_list_view = (ListView) findViewById(R.id.passage_list);
+		schedule_view = (ListView) findViewById(R.id.schedule);
 		
 		radiobuttons_view = (RadioGroup) findViewById(R.id.radiobuttons);
 		to_montreal_view = (RadioButton) findViewById(R.id.to_montreal);

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class CsvParser implements Iterable<CsvParser.CsvRow>{
+public class CsvDocument implements Iterable<CsvDocument.CsvRow>{
 	private List<String[]> rows = new ArrayList<String[]>();
 	
 	
@@ -58,7 +58,7 @@ public class CsvParser implements Iterable<CsvParser.CsvRow>{
 	}
 	
 	
-	public CsvParser(InputStream in) {
+	public CsvDocument(InputStream in) {
 		BufferedReader reader = new BufferedReader(new InputStreamReader(in));
 		
 		try {

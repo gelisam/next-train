@@ -12,30 +12,36 @@
         android:id="@+id/dataset_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="&lt;dataset&gt;" />
+        android:text="&lt;dataset>" />
 
-    <RadioButton
-        android:id="@+id/to_montreal"
-        android:layout_width="wrap_content"
+    <RadioGroup
+        android:id="@+id/radiobuttons"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:text="Vers Montréal" />
+        android:layout_alignParentBottom="true" >
 
-    <RadioButton
-        android:id="@+id/to_roxboro"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:text="Vers Roxboro" />
+        <RadioButton
+            android:id="@+id/to_montreal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:text="Vers Montréal" />
+
+        <RadioButton
+            android:id="@+id/to_roxboro"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="Vers Roxboro" />
+    </RadioGroup>
 
     <ListView
         android:id="@+id/passage_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@id/radiobuttons"
         android:layout_below="@id/dataset_name"
-        android:layout_above="@id/to_montreal"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true" >
     </ListView>

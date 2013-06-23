@@ -1,9 +1,6 @@
 package com.gelisam.prochainpassage;
 
-import java.io.IOException;
-import java.util.ArrayList;
-
-import com.gelisam.prochainpassage.CsvDocument.CsvRow;
+import java.util.List;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -16,6 +13,8 @@ import android.app.Activity;
 public class MainActivity extends Activity implements RadioGroup.OnCheckedChangeListener {
 	private static final String LOG_TAG = "MainActivity";
 	
+	private GoogleTransit googleTransit;
+	
 	private TextView dataset_name_view;
 	private ListView schedule_view;
 	
@@ -27,6 +26,8 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		
+		googleTransit = new GoogleTransit(this);
 		
 		dataset_name_view = (TextView) findViewById(R.id.dataset_name);
 		schedule_view = (ListView) findViewById(R.id.schedule);
@@ -53,18 +54,8 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
 	
 	
 	private void fillSchedule() {
-		try {
-			CsvDocument routes = new CsvDocument(getAssets().open("routes.txt"));
-			final int route_name = routes.getIndex("route_long_name");
-			
-			ArrayList<String> route_names = new ArrayList<String>();
-			for(CsvRow row : routes) {
-				route_names.add(row.getString(route_name));
-			}
-			schedule_view.setAdapter(new StringListAdapter(this, route_names, 1));
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
+		List<String> route_names = googleTransit.servicesForToday();
+		schedule_view.setAdapter(new StringListAdapter(this, route_names, 1));
 	}
 
 }

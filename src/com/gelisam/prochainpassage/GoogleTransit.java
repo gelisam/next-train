@@ -3,13 +3,11 @@ package com.gelisam.prochainpassage;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import com.gelisam.prochainpassage.CsvDocument.CsvRow;
 
 import android.content.Context;
-import android.text.method.DateTimeKeyListener;
 
 public class GoogleTransit {
 	private static final String[] days_of_the_week = new String[] {"", "sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"};

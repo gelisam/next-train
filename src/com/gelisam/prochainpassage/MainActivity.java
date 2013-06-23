@@ -53,9 +53,10 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
 	}
 	
 	
+	static int ii=0;
 	private void fillSchedule() {
 		List<String> route_names = googleTransit.servicesForToday();
-		schedule_view.setAdapter(new StringListAdapter(this, route_names, 1));
+		schedule_view.setAdapter(new StringListAdapter(this, route_names, ii++));
 	}
 
 }

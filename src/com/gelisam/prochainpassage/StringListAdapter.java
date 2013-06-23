@@ -18,6 +18,13 @@ public class StringListAdapter extends ArrayAdapter<String> {
 		this.selectedIndex = selectedIndex;
 	}
 	
+	public void updateList(List<String> strings, int selectedIndex) {
+		clear();
+		addAll(strings);
+		
+		this.selectedIndex = selectedIndex;
+	}
+	
 	public View getView (int position, View convertView, ViewGroup parent) {
 		View view = super.getView(position, convertView, parent);
 		

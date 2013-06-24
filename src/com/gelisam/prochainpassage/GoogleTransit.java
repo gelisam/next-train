@@ -60,7 +60,7 @@ public class GoogleTransit {
 		return calendar;
 	}
 	
-	public Schedule scheduleForToday() {
+	public Schedule scheduleForToday(String stop_id) {
 		Schedule schedule = new Schedule();
 		Calendar today = now();
 		

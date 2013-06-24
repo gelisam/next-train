@@ -43,19 +43,18 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
 	public void onCheckedChanged(RadioGroup group, int checkedId) {
 		switch (checkedId) {
 		case R.id.to_montreal:
-			fillSchedule();
-			Log.d(LOG_TAG, "to montreal");
+			fillSchedule("ROX1D");
 			break;
 		case R.id.to_roxboro:
-			Log.d(LOG_TAG, "to roxboro");
+			fillSchedule("ROX1B");
 			break;
 		}
 	}
 	
 	
 	static int ii=0;
-	private void fillSchedule() {
-		Schedule schedule = googleTransit.scheduleForToday();
+	private void fillSchedule(String stop_id) {
+		Schedule schedule = googleTransit.scheduleForToday(stop_id);
 		
 		dataset_name_view.setText(schedule.service_name + " schedule");
 		schedule_view.setAdapter(new StringListAdapter(this, schedule.service_ids, ii++));

@@ -64,7 +64,7 @@ public class GoogleTransit {
 		Schedule schedule = new Schedule();
 		Calendar today = now();
 		
-		ArrayList<String> usual_services = new ArrayList<String>();
+		ArrayList<String> service_ids = new ArrayList<String>();
 		{
 			CsvDocument doc = document("calendar");
 			final int service_id = doc.getIndex("service_id");
@@ -80,7 +80,7 @@ public class GoogleTransit {
 						&& today.compareTo(parseCalendar(service.getString(start_date))) >= 0
 						&& today.compareTo(parseCalendar(service.getString(end_date))) <= 0
 				) {
-					usual_services.add(service.getString(service_id));
+					service_ids.add(service.getString(service_id));
 				}
 			}
 		}
@@ -99,17 +99,17 @@ public class GoogleTransit {
 					schedule.service_name = "special";
 					switch (exception.getInt(exception_type)) {
 						case ADD:
-							usual_services.add(exception.getString(service_id));
+							service_ids.add(exception.getString(service_id));
 							break;
 						case REMOVE:
-							usual_services.remove(exception.getString(service_id));
+							service_ids.remove(exception.getString(service_id));
 							break;
 					}
 				}
 			}
 		}
 		
-		schedule.service_ids = usual_services;
+		schedule.service_ids = service_ids;
 		return schedule;
 	}
 }

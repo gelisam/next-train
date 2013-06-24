@@ -7,5 +7,5 @@ public class Schedule {
 	public String service_name; // (ex: "monday", or "special")
 	public List<String> service_ids;
 	
-	public List<String> stop_times;
+	public List<StopTime> stop_times;
 }

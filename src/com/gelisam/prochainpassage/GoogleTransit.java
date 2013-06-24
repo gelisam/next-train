@@ -112,7 +112,7 @@ public class GoogleTransit {
 		}
 		
 		// find matching trips
-		Map<String, String> stop_times = new HashMap<String, String>();
+		Map<String, StopTime> stop_times = new HashMap<String, StopTime>();
 		{
 			CsvDocument doc = document("stop_times");
 			final int trip_id = doc.getIndex("trip_id");
@@ -121,13 +121,13 @@ public class GoogleTransit {
 			
 			for(CsvRow stop : doc) {
 				if (stop_name.equals(stop.getString(stop_id))) {
-					stop_times.put(stop.getString(trip_id), stop.getString(stop_time));
+					stop_times.put(stop.getString(trip_id), new StopTime(today, stop.getString(stop_time)));
 				}
 			}
 		}
 		
 		// restrict trips to the selected service ids
-		Map<String, String> filtered_stop_times = new HashMap<String, String>();
+		Map<String, StopTime> filtered_stop_times = new HashMap<String, StopTime>();
 		{
 			CsvDocument doc = document("trips");
 			final int service_id = doc.getIndex("service_id");
@@ -143,7 +143,7 @@ public class GoogleTransit {
 		}
 		
 		schedule.service_ids = service_ids;
-		schedule.stop_times = new ArrayList<String>(filtered_stop_times.values());
+		schedule.stop_times = new ArrayList<StopTime>(filtered_stop_times.values());
 		return schedule;
 	}
 }

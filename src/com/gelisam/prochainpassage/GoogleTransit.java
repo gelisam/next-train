@@ -30,9 +30,12 @@ public class GoogleTransit {
 	}
 	
 	
-	// a version of today which can be equal to the output of parseCalendar
+	// a version of today which can be equal to the output of parseCalendar.
+	// because schedules close to midnight are often considered part of the previous day,
+	// we consider each day to end at 3 in the morning.
 	private Calendar now() {
 		Calendar calendar = Calendar.getInstance();
+		calendar.add(Calendar.HOUR_OF_DAY, -3); // so that 2:59AM is still considered part of the previous day
 		
 		int year = calendar.get(Calendar.YEAR);
 		int month = calendar.get(Calendar.MONTH);

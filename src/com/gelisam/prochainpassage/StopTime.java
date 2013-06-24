@@ -1,6 +1,7 @@
 package com.gelisam.prochainpassage;
 
 import java.util.Calendar;
+import java.util.List;
 
 public class StopTime implements Comparable<StopTime> {
 	private Calendar calendar;
@@ -20,15 +21,6 @@ public class StopTime implements Comparable<StopTime> {
 		orig_string = time;
 	}
 	
-	// null for forever
-	public boolean inBetween(Calendar min, Calendar max) {
-		if (min != null && calendar.before(min)) return false;
-		if (max != null && calendar.after(max)) return false;
-		
-		return true;
-	}
-	
-	
 	@Override
 	public String toString() {
 		return orig_string;
@@ -37,5 +29,30 @@ public class StopTime implements Comparable<StopTime> {
 	@Override
 	public int compareTo(StopTime another) {
 		return calendar.compareTo(another.calendar);
+	}
+	
+	
+	// null for forever
+	private static boolean inBetween(StopTime min, Calendar calendar, StopTime max) {
+		if (min != null && calendar.before(min.calendar)) return false;
+		if (max != null && calendar.after(max.calendar)) return false;
+		
+		return true;
+	}
+	
+	public static int nextStop(List<StopTime> stop_times) {
+		Calendar now = Calendar.getInstance();
+		
+		StopTime prev_stop = null;
+		for(int i=0; i<stop_times.size(); ++i) {
+			StopTime next_stop = stop_times.get(i);
+			if (inBetween(prev_stop, now, next_stop)) {
+				return i;
+			}
+			
+			prev_stop = next_stop;
+		}
+		
+		return stop_times.size();
 	}
 }

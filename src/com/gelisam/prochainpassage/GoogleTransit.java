@@ -27,6 +27,24 @@ public class GoogleTransit {
 	}
 	
 	
+	private Calendar parseCalendar(String YYYYMMDD) {
+		Calendar calendar = Calendar.getInstance();
+		
+		String YYYY = YYYYMMDD.substring(0, 4);
+		String   MM = YYYYMMDD.substring(4, 6);
+		String   DD = YYYYMMDD.substring(6, 8);
+		
+		int year = Integer.parseInt(YYYY);
+		int month = Integer.parseInt(MM);
+		int day = Integer.parseInt(DD);
+		
+		--month; // Java's months start at zero
+		
+		calendar.set(year, month, day);
+		
+		return calendar;
+	}
+	
 	public List<String> servicesForToday() {
 		Calendar today = Calendar.getInstance();
 		
@@ -40,7 +58,10 @@ public class GoogleTransit {
 			final int day_of_week = doc.getIndex(days_of_the_week[today.get(Calendar.DAY_OF_WEEK)]);
 			
 			for(CsvRow service : doc) {
-				if (service.getInt(day_of_week) == 1) {
+				if (service.getInt(day_of_week) == 1
+						&& today.compareTo(parseCalendar(service.getString(start_date))) >= 0
+						&& today.compareTo(parseCalendar(service.getString(end_date))) <= 0
+				) {
 					usual_services.add(service.getString(service_id));
 				}
 			}

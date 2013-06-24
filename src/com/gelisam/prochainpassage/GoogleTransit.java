@@ -3,6 +3,8 @@ package com.gelisam.prochainpassage;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.gelisam.prochainpassage.CsvDocument.CsvRow;
 
@@ -60,7 +62,7 @@ public class GoogleTransit {
 		return calendar;
 	}
 	
-	public Schedule scheduleForToday(String stop_id) {
+	public Schedule scheduleForToday(String stop_name) {
 		Schedule schedule = new Schedule();
 		Calendar today = now();
 		
@@ -109,7 +111,39 @@ public class GoogleTransit {
 			}
 		}
 		
+		// find matching trips
+		Map<String, String> stop_times = new HashMap<String, String>();
+		{
+			CsvDocument doc = document("stop_times");
+			final int trip_id = doc.getIndex("trip_id");
+			final int stop_time = doc.getIndex("departure_time");
+			final int stop_id = doc.getIndex("stop_id");
+			
+			for(CsvRow stop : doc) {
+				if (stop_name.equals(stop.getString(stop_id))) {
+					stop_times.put(stop.getString(trip_id), stop.getString(stop_time));
+				}
+			}
+		}
+		
+		// restrict trips to the selected service ids
+		Map<String, String> filtered_stop_times = new HashMap<String, String>();
+		{
+			CsvDocument doc = document("trips");
+			final int service_id = doc.getIndex("service_id");
+			final int trip_id = doc.getIndex("trip_id");
+			
+			for(CsvRow trip : doc) {
+				String service_name = trip.getString(service_id);
+				String trip_name = trip.getString(trip_id);
+				if (service_ids.contains(service_name) && stop_times.containsKey(trip_name)) {
+					filtered_stop_times.put(trip_name, stop_times.get(trip_name));
+				}
+			}
+		}
+		
 		schedule.service_ids = service_ids;
+		schedule.stop_times = new ArrayList<String>(filtered_stop_times.values());
 		return schedule;
 	}
 }

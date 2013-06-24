@@ -10,32 +10,48 @@
 
     <TextView
         android:id="@+id/dataset_name"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
         android:text="Où allons-nous, capitaine?"
-        android:textStyle="bold"
-         />
+        android:textStyle="bold" />
 
     <RadioGroup
         android:id="@+id/radiobuttons"
-        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true" >
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" >
+        </ImageView>
 
         <RadioButton
             android:id="@+id/to_montreal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
             android:text="Vers Montréal" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" >
+        </ImageView>
 
         <RadioButton
             android:id="@+id/to_roxboro"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
             android:text="Vers Roxboro" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" >
+        </ImageView>
     </RadioGroup>
 
     <ListView

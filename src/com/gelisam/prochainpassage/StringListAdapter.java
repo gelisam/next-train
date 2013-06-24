@@ -7,20 +7,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
-public class StringListAdapter extends ArrayAdapter<String> {
+public class StringListAdapter<E> extends ArrayAdapter<E> {
 	private Context context;
 	private int selectedIndex;
 	
-	public StringListAdapter(Context context, List<String> strings, int selectedIndex) {
-		super(context, R.layout.schedule_item, strings);
+	public StringListAdapter(Context context, List<E> elements, int selectedIndex) {
+		super(context, R.layout.schedule_item, elements);
 		
 		this.context = context;
 		this.selectedIndex = selectedIndex;
 	}
 	
-	public void updateList(List<String> strings, int selectedIndex) {
+	public void updateList(List<E> elements, int selectedIndex) {
 		clear();
-		addAll(strings);
+		addAll(elements);
 		
 		this.selectedIndex = selectedIndex;
 	}

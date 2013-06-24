@@ -2,7 +2,7 @@ package com.gelisam.prochainpassage;
 
 import java.util.Calendar;
 
-public class StopTime {
+public class StopTime implements Comparable<StopTime> {
 	private Calendar calendar;
 	private String orig_string;
 	
@@ -28,7 +28,14 @@ public class StopTime {
 		return true;
 	}
 	
+	
+	@Override
 	public String toString() {
 		return orig_string;
+	}
+	
+	@Override
+	public int compareTo(StopTime another) {
+		return calendar.compareTo(another.calendar);
 	}
 }

@@ -3,7 +3,9 @@ package com.gelisam.prochainpassage;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.gelisam.prochainpassage.CsvDocument.CsvRow;
@@ -142,8 +144,12 @@ public class GoogleTransit {
 			}
 		}
 		
+		// sort by time
+		List<StopTime> sorted_stop_times = new ArrayList<StopTime>(filtered_stop_times.values());
+		Collections.sort(sorted_stop_times);
+		
 		schedule.service_ids = service_ids;
-		schedule.stop_times = new ArrayList<StopTime>(filtered_stop_times.values());
+		schedule.stop_times = sorted_stop_times;
 		return schedule;
 	}
 }

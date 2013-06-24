@@ -61,7 +61,8 @@ public class GoogleTransit {
 		return calendar;
 	}
 	
-	public List<String> servicesForToday() {
+	public Schedule servicesForToday() {
+		Schedule schedule = new Schedule();
 		Calendar today = now();
 		
 		ArrayList<String> usual_services = new ArrayList<String>();
@@ -71,7 +72,9 @@ public class GoogleTransit {
 			final int start_date = doc.getIndex("start_date");
 			final int end_date = doc.getIndex("end_date");
 			
-			final int day_of_week = doc.getIndex(days_of_the_week[today.get(Calendar.DAY_OF_WEEK)]);
+			String day_string = days_of_the_week[today.get(Calendar.DAY_OF_WEEK)];
+			final int day_of_week = doc.getIndex(day_string);
+			schedule.name = day_string;
 			
 			for(CsvRow service : doc) {
 				if (service.getInt(day_of_week) == 1
@@ -94,6 +97,7 @@ public class GoogleTransit {
 			
 			for(CsvRow exception : doc) {
 				if (today.equals(parseCalendar(exception.getString(date)))) {
+					schedule.name = "special";
 					switch (exception.getInt(exception_type)) {
 						case ADD:
 							usual_services.add(exception.getString(service_id));
@@ -106,6 +110,7 @@ public class GoogleTransit {
 			}
 		}
 		
-		return usual_services;
+		schedule.service_ids = usual_services;
+		return schedule;
 	}
 }

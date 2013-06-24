@@ -27,6 +27,21 @@ public class GoogleTransit {
 	}
 	
 	
+	// a version of today which can be equal to the output of parseCalendar
+	private Calendar now() {
+		Calendar calendar = Calendar.getInstance();
+		
+		int year = calendar.get(Calendar.YEAR);
+		int month = calendar.get(Calendar.MONTH);
+		int day = calendar.get(Calendar.DAY_OF_MONTH);
+		
+		// clear the time of day, only keep the date
+		calendar.clear();
+		calendar.set(year, month, day);
+		
+		return calendar;
+	}
+	
 	private Calendar parseCalendar(String YYYYMMDD) {
 		Calendar calendar = Calendar.getInstance();
 		
@@ -40,13 +55,14 @@ public class GoogleTransit {
 		
 		--month; // Java's months start at zero
 		
+		calendar.clear();
 		calendar.set(year, month, day);
 		
 		return calendar;
 	}
 	
 	public List<String> servicesForToday() {
-		Calendar today = Calendar.getInstance();
+		Calendar today = now();
 		
 		ArrayList<String> usual_services = new ArrayList<String>();
 		{
@@ -63,6 +79,29 @@ public class GoogleTransit {
 						&& today.compareTo(parseCalendar(service.getString(end_date))) <= 0
 				) {
 					usual_services.add(service.getString(service_id));
+				}
+			}
+		}
+		
+		// apply exceptions if today is a holiday
+		{
+			CsvDocument doc = document("calendar_dates");
+			final int service_id = doc.getIndex("service_id");
+			final int date = doc.getIndex("date");
+			final int exception_type = doc.getIndex("exception_type");
+			final int ADD = 1;
+			final int REMOVE = 2;
+			
+			for(CsvRow exception : doc) {
+				if (today.equals(parseCalendar(exception.getString(date)))) {
+					switch (exception.getInt(exception_type)) {
+						case ADD:
+							usual_services.add(exception.getString(service_id));
+							break;
+						case REMOVE:
+							usual_services.remove(exception.getString(service_id));
+							break;
+					}
 				}
 			}
 		}

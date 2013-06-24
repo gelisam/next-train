@@ -35,7 +35,7 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
 			fillSchedule("ROX1D");
 			break;
 		case R.id.to_roxboro:
-			fillSchedule("ROX1B");
+			fillSchedule("MTL5B");
 			break;
 		}
 	}

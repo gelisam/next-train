@@ -3,7 +3,6 @@ package com.gelisam.prochainpassage;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 import com.gelisam.prochainpassage.CsvDocument.CsvRow;
 
@@ -61,7 +60,7 @@ public class GoogleTransit {
 		return calendar;
 	}
 	
-	public Schedule servicesForToday() {
+	public Schedule scheduleForToday() {
 		Schedule schedule = new Schedule();
 		Calendar today = now();
 		
@@ -74,7 +73,7 @@ public class GoogleTransit {
 			
 			String day_string = days_of_the_week[today.get(Calendar.DAY_OF_WEEK)];
 			final int day_of_week = doc.getIndex(day_string);
-			schedule.name = day_string;
+			schedule.service_name = day_string;
 			
 			for(CsvRow service : doc) {
 				if (service.getInt(day_of_week) == 1
@@ -97,7 +96,7 @@ public class GoogleTransit {
 			
 			for(CsvRow exception : doc) {
 				if (today.equals(parseCalendar(exception.getString(date)))) {
-					schedule.name = "special";
+					schedule.service_name = "special";
 					switch (exception.getInt(exception_type)) {
 						case ADD:
 							usual_services.add(exception.getString(service_id));

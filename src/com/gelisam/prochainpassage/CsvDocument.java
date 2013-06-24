@@ -62,13 +62,17 @@ public class CsvDocument implements Iterable<CsvDocument.CsvRow>{
 		BufferedReader reader = new BufferedReader(new InputStreamReader(in));
 		
 		try {
-			for (
-					String line = reader.readLine();
-					line != null;
-					line = reader.readLine()
-			) {
-				String[] entries = line.split(",");
-				rows.add(entries);
+			try {
+				for (
+						String line = reader.readLine();
+						line != null;
+						line = reader.readLine()
+				) {
+					String[] entries = line.split(",");
+					rows.add(entries);
+				}
+			} finally {
+				reader.close();
 			}
 		} catch (IOException e) {
 			throw new RuntimeException(e);

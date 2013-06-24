@@ -46,7 +46,9 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
 		Schedule schedule = googleTransit.scheduleForToday(stop_id);
 		
 		dataset_name_view.setText(schedule.service_name + " schedule");
-		schedule_view.setAdapter(new StringListAdapter<StopTime>(this, schedule.stop_times, ii++));
+		schedule_view.setAdapter(new StringListAdapter<StopTime>(this, schedule.stop_times, ii));
+		schedule_view.setSelection(ii);
+		++ii;
 	}
 
 }

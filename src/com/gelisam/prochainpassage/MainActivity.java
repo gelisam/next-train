@@ -11,8 +11,10 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
 	
 	private TextView dataset_name_view;
 	private ListView schedule_view;
-	
 	private RadioGroup radiobuttons_view;
+	
+	private String stop_name;
+	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -27,23 +29,34 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
 		radiobuttons_view = (RadioGroup) findViewById(R.id.radiobuttons);
 		radiobuttons_view.setOnCheckedChangeListener(this);
 	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		
+		updateSchedule();
+	}
 
 	@Override
 	public void onCheckedChanged(RadioGroup group, int checkedId) {
 		switch (checkedId) {
 		case R.id.to_montreal:
-			fillSchedule("ROX1D");
+			setStopName("ROX1D");
 			break;
 		case R.id.to_roxboro:
-			fillSchedule("MTL5B");
+			setStopName("MTL5B");
 			break;
 		}
 	}
 	
 	
-	static int ii=0;
-	private void fillSchedule(String stop_id) {
-		Schedule schedule = googleTransit.scheduleForToday(stop_id);
+	private void setStopName(String stop_name) {
+		this.stop_name = stop_name;
+		updateSchedule();
+	}
+	
+	private void updateSchedule() {
+		Schedule schedule = googleTransit.scheduleForToday(stop_name);
 		
 		int next_stop = StopTime.nextStop(schedule.stop_times);
 		

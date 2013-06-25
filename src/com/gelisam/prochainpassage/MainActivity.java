@@ -28,6 +28,7 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
 		
 		radiobuttons_view = (RadioGroup) findViewById(R.id.radiobuttons);
 		radiobuttons_view.setOnCheckedChangeListener(this);
+		radiobuttons_view.check(R.id.to_montreal);
 	}
 	
 	@Override
